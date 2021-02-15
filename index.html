@@ -9,46 +9,58 @@
   <meta name="description" content="Play tic-tac-toe">
   <meta name="author" content="ScottyG">
 
-  <style>
-    span {
-      border-style: solid;
-      width: 2em;
-      height: 2em;
-    }
-  </style>
-
-  <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Reggae+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 
 </head>
 
 <body id="body">
   <div id="board">
 
-    <div class="rowTop">
-      <span class="square" id="r0c0">test</span>
-      <span class="square" id="r0c1">test</span>
-      <span class="square" id="r0c2">test</span>
+    <div class="row">
+      <div class="square" id="r0c0"> </div>
+      <div class="square" id="r0c1"> </div>
+      <div class="square" id="r0c2"> </div>
     </div>
 
-    <div class="rowMid">
-      <span class="square" id="r1c0">test</span>
-      <span class="square" id="r1c1">test</span>
-      <span class="square" id="r1c2">test</span>
+    <div class="row">
+      <div class="square" id="r1c0"> </div>
+      <div class="square" id="r1c1"> </div>
+      <div class="square" id="r1c2"> </div>
     </div>
 
-    <div class="rowBot">
-      <span class="square" id="r2c0">test</span>
-      <span class="square" id="r2c1">test</span>
-      <span class="square" id="r2c2">test</span>
+    <div class="row">
+      <div class="square" id="r2c0"> </div>
+      <div class="square" id="r2c1"> </div>
+      <div class="square" id="r2c2"> </div>
     </div>
 
   </div>
 
   <div>
-    <p id="winner"> Click a square to place a token. </p>
+    <div id="forNaming">
+
+      <p id="winner"> Click a square to place a token. </p>
+
+      <label for="team1name">Team 1 Name</label>
+      <input type="text" name="team1name" id="team1name">
+      <br>
+
+      <label for="team2name">Team 2 Name</label>
+      <input type="text" name="team2name" id="team2name">
+      <br>
+
+      <button onclick="nameTeam()" id="teamname">Name Teams</button>
+    </div>
+
+    <div class="scoreboard"> <br>Scoreboard:
+      <br><span id='team1'></span><span id='xwins'></span>
+      <br><span id='team2'></span><span id='owins'></span>
+    </div>
+    <button hidden onclick="resetBoard()" id="reset"> Play again?</button>
   </div>
 
-    <button hidden id="reset" > Play again?</button>
 
   <script src="app.js"></script>
 </body>

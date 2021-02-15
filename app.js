@@ -1,30 +1,28 @@
 
 
 // ----- MODEL -----
-  // creates a new board in memory
 var board = [[null, null, null], [null, null, null], [null, null, null]];
 
 var tokensPlaced = 0;
-var xTurn = false;
+var xTurn = true;
 var winner = null;
+var gameOver = false;
 
-var isValidClick = function(event) {
-  var value = event.target.innerText;
-   if (value === 'O' || value === 'X'){
-     return false
-   } else {
-     return true;
-   }
-}
+// Tally of wins, resets on refresh
+var xwins = 0;
+var owins = 0;
 
-var placeToken = function(event) {
+var team1name = 'Xs';
+var team2name ='Os';
+
+var placeToken = (event) => {
   //check if it was a valid click
   if (isValidClick(event)) {
     tokensPlaced++;
 
-    //update board based on xTurn
+    //update board in memory
     var squareClicked = event.target.id;
-    var row = squareClicked.slice(1,2);
+    var row = squareClicked.slice(1, 2);
     var col = squareClicked.slice(3);
 
     if (xTurn) {
@@ -35,26 +33,28 @@ var placeToken = function(event) {
 
     // if more than 4 tokens have been placed, check if there's a winner
     if (tokensPlaced > 4) {
-       checkWinner();
-       if (winner !== null) {
-         gameWon(winner);
-       }
+      checkWinner();
+      if (winner !== null) {
+        gameOver = true;
+        gameWon(winner);
+      }
     }
 
     // else if nine tokens have been placed, invoke gameDraw
     if (winner === null && tokensPlaced === 9) {
+      gameOver = true;
       gameDraw();
     }
     // adjust whose turn it is
     xTurn = !xTurn;
 
     // call on view to update the board
-    console.log('inMemory Board Update: ', board);
     renderBoard();
   }
 }
 
-var checkWinner = function() {
+// this function checks vertical columns, horizontal rows, and diagonals for a winner. It sets the global 'winner' variable equal to that winner if found.
+var checkWinner = function () {
   var checkVerticals = () => {
     for (var col = 0; col < 3; col++) {
       if (board[0][col] === 1 && board[1][col] === 1 && board[2][col] === 1) {
@@ -100,7 +100,6 @@ var checkWinner = function() {
   checkVerticals();
   checkHorizontals()
   checkDiagonals();
-  return winner;
 }
 
 // ----- VIEW -----
@@ -113,13 +112,12 @@ var renderBoard = () => {
       if (board[row][col] === 1) {
         //render an 'O'
         document.getElementById(id).innerText = 'O';
-
       } else if (board[row][col] === 2) {
         //render an 'X'
         document.getElementById(id).innerText = 'X';
       } else if (board[row][col] === null) {
         //render an empty square
-        document.getElementById(id).innerText = 'test'; //CHANGE THIS TO REMOVE TEST
+        document.getElementById(id).innerText = '';
       }
     }
   }
@@ -129,29 +127,73 @@ var gameWon = (winner) => {
   var nameOfWinner;
   if (winner === 1) {
     nameOfWinner = 'O';
+    owins++;
   } else if (winner === 2) {
     nameOfWinner = 'X';
+    xwins++;
   }
-  // display a reset option
+  document.getElementById('xwins').innerText = `${xwins}`;
+  document.getElementById('owins').innerText = `${owins}`;
   document.getElementById('winner').innerText = `Team ${nameOfWinner} has won!`
+    // display a play again option
   document.getElementById("reset").hidden = false;
   document.getElementById("reset").addEventListener("click", resetBoard);
 }
 
+var gameDraw = () => {
+  document.getElementById('winner').innerText = `Game is a draw!`
+  document.getElementById("reset").hidden = false;
+}
+
+var renderScoreboard = () => {
+  document.getElementById('team1').innerText = `${team1name} (X): `;
+  document.getElementById('team2').innerText = `${team2name} (O): `;
+}
+// render the default scoreboard at start
+renderScoreboard();
+
 // ----- CONTROLLER -----
 
-// setup Click Event Listeners
+// setup Click Event Listener for the board
 document.getElementById("board").addEventListener("click", placeToken);
 
+// This function determines if the user has made a 'legal' move. Returns a boolean.
+var isValidClick = function (event) {
+  var value = event.target.innerText;
+  if (gameOver) {
+    return false;
+  }
 
+  if (value !== '' && value !== 'test') {
+    return false
+  } else {
+    return true;
+  }
+}
 
+// click event handler for name team button
+var nameTeam = () => {
+  team1name = document.getElementById("team1name").value;
+  team2name = document.getElementById("team2name").value;
+  renderScoreboard();
+  document.getElementById("forNaming").hidden = true;
+
+}
+
+// click event handler for play again (reset) button
 var resetBoard = () => {
-  console.log('resetBoard has been called!');
   document.getElementById("reset").hidden = true;
 
   board = [[null, null, null], [null, null, null], [null, null, null]];
   tokensPlaced = 0;
+  // make it, take it. Winner goes first.
+  if (winner === 1) {
+    xTurn = false;
+  } else if (winner === 2) {
+    xTurn = true;
+  }
   winner = null;
+  gameOver = false;
 
   document.getElementById('winner').innerText = 'Click a square to place a token.'
   renderBoard();
