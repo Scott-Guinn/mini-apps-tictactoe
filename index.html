@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
 
@@ -11,6 +12,8 @@
   <style>
     span {
       border-style: solid;
+      width: 2em;
+      height: 2em;
     }
   </style>
 
@@ -18,14 +21,36 @@
 
 </head>
 
-<body>
+<body id="body">
+  <div id="board">
 
-  <div class="rowTop"><span class="c1">test</span><span class="c2">test</span><span class="c3">test</span></div>
-  <div class="rowMid"><span class="c1">test</span><span class="c2">test</span><span class="c3">test</span></div>
-  <div class="rowBot"><span class="c1">test</span><span class="c2">test</span><span class="c3">test</span></div>
+    <div class="rowTop">
+      <span class="square" id="r0c0">test</span>
+      <span class="square" id="r0c1">test</span>
+      <span class="square" id="r0c2">test</span>
+    </div>
 
-  <div class="winner"> No winner yet! </div>
+    <div class="rowMid">
+      <span class="square" id="r1c0">test</span>
+      <span class="square" id="r1c1">test</span>
+      <span class="square" id="r1c2">test</span>
+    </div>
+
+    <div class="rowBot">
+      <span class="square" id="r2c0">test</span>
+      <span class="square" id="r2c1">test</span>
+      <span class="square" id="r2c2">test</span>
+    </div>
+
+  </div>
+
+  <div>
+    <p id="winner"> Click a square to place a token. </p>
+  </div>
+
+    <button hidden id="reset" > Play again?</button>
 
   <script src="app.js"></script>
 </body>
+
 </html>
