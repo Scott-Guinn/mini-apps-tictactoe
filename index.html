@@ -16,6 +16,18 @@
 </head>
 
 <body id="body">
+  <div id="header">
+    <div> Note: development is currently (ACTIVELY!) underway with this app. You may experience ~strange~ gameplay from
+      time to time as well as unexpected outages.<br>Consider it part of the fun.</div>
+  </div>
+  <div id="gameplayOptions">
+    <label for="rotateBoard"> Rotate Board</label>
+    <input onclick="rotateBoardHandler()" type="checkbox" name="rotateBoard">
+
+    <label for="gravity">Toggle gravity</label>
+    <input onclick="gravityHandler()" type="checkbox" name="rotateBoard">
+  </div>
+
   <div id="board">
 
     <div class="row">
@@ -39,9 +51,15 @@
   </div>
 
   <div>
-    <div id="forNaming">
 
-      <p id="winner"> Click a square to place a token. </p>
+    <span id="winner"> Click a square to place a token. </span>
+
+    <div class="scoreboard"> <br>Scoreboard:
+      <br><span id='team1'></span><span id='xwins'></span>
+      <br><span id='team2'></span><span id='owins'></span>
+    </div>
+
+    <div id="forNaming">
 
       <label for="team1name">Team 1 Name</label>
       <input type="text" name="team1name" id="team1name">
@@ -54,10 +72,6 @@
       <button onclick="nameTeam()" id="teamname">Name Teams</button>
     </div>
 
-    <div class="scoreboard"> <br>Scoreboard:
-      <br><span id='team1'></span><span id='xwins'></span>
-      <br><span id='team2'></span><span id='owins'></span>
-    </div>
     <button hidden onclick="resetBoard()" id="reset"> Play again?</button>
   </div>
 
